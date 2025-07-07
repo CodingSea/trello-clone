@@ -43,6 +43,7 @@ function init()
             inputTitleElem.value = "";
             inputContentElem.value = "";
             checkForButtons();
+            closeInsertForm();
         }
     }
 
@@ -64,8 +65,6 @@ function init()
         openInsertForm();
         insertBtnFrmElem.textContent = "Save";
         checkForButtons();
-
-        console.log("workded");
     }
 
     function checkForButtons()
