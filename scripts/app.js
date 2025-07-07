@@ -35,6 +35,17 @@ function init()
                                             <button class="deleteBtn">Delete</button>
                                         </div>`;
 
+        checkForButtons();
+    }
+
+    function deleteCard(button)
+    {
+        const card = button.parentNode;
+        card.remove();
+    }
+
+    function checkForButtons()
+    {
         deleteBtnsElem = document.querySelectorAll(".deleteBtn");
         deleteBtnsElem.forEach(button => 
         {
@@ -45,22 +56,12 @@ function init()
         });
     }
 
-    function deleteCard(button)
-    {
-        const card = button.parentNode;
-        card.remove();
-    }
-
     insertBtnElem.addEventListener("click", openInsertForm);
     closeBtnFrmElem.addEventListener("click", closeInsertForm);
     insertBtnFrmElem.addEventListener("click", insertCardForm);
-    deleteBtnsElem.forEach(button => 
-    {
-        button.addEventListener("click", function()
-        {
-            deleteCard(this);
-        });
-    });
+    checkForButtons();
+
+    document.addEventListener("DOMNodeInserted", checkForButtons);
 }
 
 document.addEventListener('DOMContentLoaded', init);
