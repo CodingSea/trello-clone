@@ -16,9 +16,10 @@ body
 
 }
 
-.columnContainer h2
+.columnContainer h1
 {
     text-align: center;
+    margin: 0;
 }
 
 .card
@@ -41,16 +42,56 @@ body
 
     width: 40em;
     height: 30em;
-    opacity: 0;
     text-align: center;
+    display: none;
 }
 
 .insertForm.open
 {
-    opacity: 1;
+    display: block;
+}
+
+.insertForm input
+{
+    display: block;
+    margin: 1em auto 1em auto;
+}
+
+.insertForm textarea
+{
+    width: 80%;
+    padding: 2em;
+    text-align: justify;
+    -moz-text-align-last: center;
+    text-align-last: center;
+    display: block;
+    margin: 1em auto;
 }
 
 #insertBtn
 {
     width: 100%;
+}
+
+.card
+{
+    background: gray;
+    border: 3px solid black;
+    border-radius: 2em;
+    padding: 1em;
+    padding-top: 0;
+    margin-bottom: 0.5em;
+}
+
+.card h2
+{
+    margin-bottom: 0;
+}
+
+.card button
+{
+    margin: auto;
+    width: 45%;
+    display: inline-block;
+    text-align: center;
 }

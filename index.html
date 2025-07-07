@@ -11,17 +11,24 @@
 
     <div class="mainContainer">
         <div class="columnContainer">
-            <h2>Section</h2>
+            <h1>Section</h1>
             <button id="insertBtn">+</button>
             <hr>
-            <div class="card">
-
+            <div class="sectionContent">
+                <div class="card">
+                    <h2>Title</h2>
+                    <hr>
+                    <p>Text</p>
+                    <button class="editBtn">Edit</button>
+                    <button class="deleteBtn">Delete</button>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="insertForm">
-        <input type="text" placeholder="text">
+        <input type="text" placeholder="enter title" id="inputTitle">
+        <textarea placeholder="enter content" id="inputContent"></textarea>
         <button id="insertBtnFrm">Insert</button>
         <button id="closeBtnFrm">Close</button>
     </div>
