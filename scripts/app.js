@@ -33,9 +33,9 @@ function init()
             content = content.replace(/\n/g, '<br>');
             
             sectionContentElem.innerHTML += `<div class="card">
-                                                <h2>${inputTitleElem.value}</h2>
+                                                <h2 class="title">${inputTitleElem.value}</h2>
                                                 <hr>
-                                                <p>${content}</p>
+                                                <p class="content">${content}</p>
                                                 <button class="editBtn">Edit</button>
                                                 <button class="deleteBtn">Delete</button>
                                             </div>`;
@@ -56,13 +56,16 @@ function init()
     {
         const card = button.parentNode;
 
-        const title = card.querySelector(".title");
-        const content = card.querySelector(".content");
+        let title = card.querySelector(".title");
+        let content = card.querySelector(".content");
 
         inputTitleElem.value = title.textContent;
         inputContentElem.value = content.textContent;
         openInsertForm();
         insertBtnFrmElem.textContent = "Save";
+        checkForButtons();
+
+        console.log("workded");
     }
 
     function checkForButtons()
@@ -90,8 +93,6 @@ function init()
     closeBtnFrmElem.addEventListener("click", closeInsertForm);
     insertBtnFrmElem.addEventListener("click", insertCardForm);
     checkForButtons();
-
-    document.addEventListener("DOMNodeInserted", checkForButtons);
 }
 
 document.addEventListener('DOMContentLoaded', init);
