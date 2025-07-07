@@ -11,21 +11,27 @@ function init()
     const insertFormElem = document.querySelector(".insertForm");
     const sectionContentElem = document.querySelector(".sectionContent");
 
+    let editMode = false;
+    let selectedCard;
+
     function openInsertForm()
     {
         insertBtnFrmElem.textContent = "Insert";
         insertFormElem.classList.add("open");
+        editMode = false;
     }
 
     function closeInsertForm()
     {
         insertFormElem.classList.remove("open");
+        inputTitleElem.value = "";
+        inputContentElem.value = "";
         checkForButtons();
     }
 
     function insertCardForm()
     {
-        if(insertBtnFrmElem.textContent == "Insert")
+        if(editMode == false)
         {
             let content = inputContentElem.value;
 
@@ -45,6 +51,18 @@ function init()
             checkForButtons();
             closeInsertForm();
         }
+        else
+        {
+            let title = selectedCard.querySelector(".title");
+            let content = selectedCard.querySelector(".content");
+
+            title.textContent = inputTitleElem.value;
+            content.textContent = inputContentElem.value;
+
+            inputTitleElem.value = "";
+            inputContentElem.value = "";
+            closeInsertForm();
+        }
     }
 
     function deleteCard(button)
@@ -56,6 +74,7 @@ function init()
     function editCard(button)
     {
         const card = button.parentNode;
+        selectedCard = card;
 
         let title = card.querySelector(".title");
         let content = card.querySelector(".content");
@@ -65,6 +84,7 @@ function init()
         openInsertForm();
         insertBtnFrmElem.textContent = "Save";
         checkForButtons();
+        editMode = true;
     }
 
     function checkForButtons()
