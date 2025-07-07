@@ -1,3 +1,8 @@
+body
+{
+    
+}
+
 .mainContainer
 {
     width: 20em;
@@ -18,5 +23,34 @@
 
 .card
 {
-    
+
+}
+
+.insertForm
+{
+    position: absolute;
+    z-index: 999;
+    background: red;
+    border: 5px solid black;
+    border-radius: 2em;
+    padding: 0.5em;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 40em;
+    height: 30em;
+    opacity: 0;
+    text-align: center;
+}
+
+.insertForm.open
+{
+    opacity: 1;
+}
+
+#insertBtn
+{
+    width: 100%;
 }
