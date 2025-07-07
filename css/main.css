@@ -5,15 +5,16 @@ body
 
 .mainContainer
 {
-    width: 20em;
-    border: 0.2em solid black;
-    padding: 0.5em;
-    border-radius: 2em;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
 }
 
 .columnContainer
 {
-
+    width: 20em;
+    border: 0.2em solid black;
+    padding: 0.5em;
+    border-radius: 2em;
 }
 
 .columnContainer h1
@@ -102,4 +103,11 @@ body
     margin: 0.5em auto;
     width: 45%;
     text-align: center;
+}
+
+#sectionInsertBtn
+{
+    width: 5em;
+    height: 5em;
+    margin: 2em;
 }
