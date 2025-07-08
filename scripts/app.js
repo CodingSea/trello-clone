@@ -68,60 +68,27 @@ function init()
             content = content.replace(/\n/g, '<br>');
 
             const contentElem = selectedSection.querySelector(".sectionContent");
-            
-            
-            contentElem.innerHTML += `<div class="card">
-                                                <h2 class="title">${inputTitleElem.value}</h2>
+
+            const newCard = document.createElement("div");
+            newCard.classList.add("card");
+            newCard.innerHTML += `<h2 class="title">${inputTitleElem.value}</h2>
                                                 <hr>
                                                 <p class="content">${content}</p>
                                                 <button class="editBtn">Edit</button>
-                                                <button class="deleteBtn">Delete</button>
-                                            </div>`;
+                                                <button class="deleteBtn">Delete</button>`;
 
+            const cardDeleteBtn = newCard.querySelector(".deleteBtn");
 
-/*
-            let newCard = document.createElement("div");
-            newCard.classList.add(card);
-            let cardTitle = document.createElement("h2");
-            cardTitle.classList.add("title");
-            cardTitle.textContent = inputTitleElem.value;
-            let cardLine = document.createElement("hr");
-            let cardContent = document.createElement("p");
-            cardContent.classList.add("content");
-            cardContent.textContent = content;
-            let cardEditBtn = document.createElement("button");
-            cardEditBtn.classList.add("editBtn");
-            cardEditBtn.textContent = "Edit";
-            let cardDeleteBtn = document.createElement("button");
-            cardDeleteBtn.classList.add("deleteBtn");
-            cardDeleteBtn.textContent = "Delete";
-
-            newCard.appendChild(cardTitle);
-            newCard.appendChild(cardLine);
-            newCard.appendChild(cardContent);
-            newCard.appendChild(cardEditBtn);
-            newCard.appendChild(cardDeleteBtn);
+            cardDeleteBtn.addEventListener("click",function(event)
+            {
+                console.log("pressed");
+                deleteCard(cardDeleteBtn);
+            });
 
             contentElem.appendChild(newCard);
 
-
-            cardDeleteBtn.addEventListener("click", function()
-            {
-                deleteCard(cardDeleteBtn);
-            });*/
-
-            const cardDeleteBtn = contentElem.querySelector(".deleteBtn");
-
-            cardDeleteBtn.addEventListener("click", button => function()
-            {
-                console.log("dd");
-                deleteCard(button);
-
-                inputTitleElem.value = "";
-                inputContentElem.value = "";
-            });
-
-            
+            inputTitleElem.value = "";
+            inputContentElem.value = "";
         }
         else
         {
