@@ -69,6 +69,7 @@ function init()
 
             const contentElem = selectedSection.querySelector(".sectionContent");
             
+            
             contentElem.innerHTML += `<div class="card">
                                                 <h2 class="title">${inputTitleElem.value}</h2>
                                                 <hr>
@@ -78,17 +79,49 @@ function init()
                                             </div>`;
 
 
-            const contentAllElem = selectedSection.querySelectorAll(".card");
-            
-            let newCard = contentAllElem[contentAllElem.length - 1];
+/*
+            let newCard = document.createElement("div");
+            newCard.classList.add(card);
+            let cardTitle = document.createElement("h2");
+            cardTitle.classList.add("title");
+            cardTitle.textContent = inputTitleElem.value;
+            let cardLine = document.createElement("hr");
+            let cardContent = document.createElement("p");
+            cardContent.classList.add("content");
+            cardContent.textContent = content;
+            let cardEditBtn = document.createElement("button");
+            cardEditBtn.classList.add("editBtn");
+            cardEditBtn.textContent = "Edit";
+            let cardDeleteBtn = document.createElement("button");
+            cardDeleteBtn.classList.add("deleteBtn");
+            cardDeleteBtn.textContent = "Delete";
 
-            newCard.querySelector(".deleteBtn").addEventListener("click", function(button)
+            newCard.appendChild(cardTitle);
+            newCard.appendChild(cardLine);
+            newCard.appendChild(cardContent);
+            newCard.appendChild(cardEditBtn);
+            newCard.appendChild(cardDeleteBtn);
+
+            contentElem.appendChild(newCard);
+
+
+            cardDeleteBtn.addEventListener("click", function()
             {
+                deleteCard(cardDeleteBtn);
+            });*/
+
+            const cardDeleteBtn = contentElem.querySelector(".deleteBtn");
+
+            cardDeleteBtn.addEventListener("click", button => function()
+            {
+                console.log("dd");
                 deleteCard(button);
+
+                inputTitleElem.value = "";
+                inputContentElem.value = "";
             });
 
-            inputTitleElem.value = "";
-            inputContentElem.value = "";
+            
         }
         else
         {
@@ -123,7 +156,7 @@ function init()
         inputContentElem.value = content.textContent;
         editMode = true;
         openInsertForm(button);
-        checkForButtons();
+        //checkForButtons();
         
     }
 
@@ -230,7 +263,7 @@ function init()
             </div>
         </div>`;
 
-        checkForButtons();
+        //checkForButtons();
     }
 
     closeBtnFrmElem.addEventListener("click", closeInsertForm);
