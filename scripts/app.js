@@ -8,19 +8,46 @@ function init()
     let deleteBtnsElem = document.querySelectorAll(".deleteBtn");
     let editBtnsElem = document.querySelectorAll(".editBtn");
     const insertFormElem = document.querySelector(".insertForm");
-    let sectionsContentElem = document.querySelectorAll(".sectionContent");
     let deleteSectionBtnsElem = document.querySelectorAll("#deleteSectionBtn");
     const sectionsContainerElem = document.querySelector("#sectionsContainer");
     const sectionInsertBtnsElem = document.querySelector("#sectionInsertBtn");
 
     let editMode = false;
     let selectedCard;
+    let selectedSection;
 
-    function openInsertForm()
+    /*
+    const selectedObject =
     {
-        insertBtnFrmElem.textContent = "Insert";
-        insertFormElem.classList.add("open");
-        editMode = false;
+        selectedSection,
+        selectedCard,
+        
+
+        getSelectedObject(section)
+        {
+            selectedSection = section;
+            
+        }
+    }*/
+
+    function openInsertForm(button)
+    {
+        if(editMode)
+        {
+            insertBtnFrmElem.textContent = "Save";
+            insertFormElem.classList.add("open");
+            editMode = false;
+            selectedSection = button.parentNode.parentNode.parentNode;
+            console.log(selectedSection);
+            selectedCard = button.parentNode;
+        }
+        else
+        {
+            insertBtnFrmElem.textContent = "Insert";
+            insertFormElem.classList.add("open");
+            editMode = false;
+            selectedSection = button.parentNode;
+        }
     }
 
     function closeInsertForm()
@@ -28,7 +55,7 @@ function init()
         insertFormElem.classList.remove("open");
         inputTitleElem.value = "";
         inputContentElem.value = "";
-        checkForButtons();
+        //checkForButtons();
     }
 
     function insertCardForm(button)
@@ -40,9 +67,9 @@ function init()
             // this line is learned from the internet
             content = content.replace(/\n/g, '<br>');
 
-            sce = button.parentNode.querySelectorAll(".sectionContent");
+            const contentElem = selectedSection.querySelector(".sectionContent");
             
-            sce.innerHTML += `<div class="card">
+            contentElem.innerHTML += `<div class="card">
                                                 <h2 class="title">${inputTitleElem.value}</h2>
                                                 <hr>
                                                 <p class="content">${content}</p>
@@ -50,10 +77,18 @@ function init()
                                                 <button class="deleteBtn">Delete</button>
                                             </div>`;
 
+
+            const contentAllElem = selectedSection.querySelectorAll(".card");
+            
+            let newCard = contentAllElem[contentAllElem.length - 1];
+
+            newCard.querySelector(".deleteBtn").addEventListener("click", function(button)
+            {
+                deleteCard(button);
+            });
+
             inputTitleElem.value = "";
             inputContentElem.value = "";
-            checkForButtons();
-            closeInsertForm();
         }
         else
         {
@@ -62,11 +97,12 @@ function init()
 
             title.textContent = inputTitleElem.value;
             content.textContent = inputContentElem.value;
-
-            inputTitleElem.value = "";
-            inputContentElem.value = "";
-            closeInsertForm();
         }
+
+        closeInsertForm();
+        //checkForButtons();
+        inputTitleElem.value = "";
+        inputContentElem.value = "";
     }
 
     function deleteCard(button)
@@ -85,10 +121,10 @@ function init()
 
         inputTitleElem.value = title.textContent;
         inputContentElem.value = content.textContent;
-        openInsertForm();
-        insertBtnFrmElem.textContent = "Save";
-        checkForButtons();
         editMode = true;
+        openInsertForm(button);
+        checkForButtons();
+        
     }
 
     function checkForButtons()
@@ -96,12 +132,26 @@ function init()
         insertBtnsElem = document.querySelectorAll("#insertBtn");
         insertBtnsElem.forEach(button => 
         {
-            button.addEventListener("click", openInsertForm);
+            editMode = false;
+            button.removeEventListener("click", function(){openInsertForm(button);});
+        });
+        insertBtnsElem.forEach(button => 
+        {
+            editMode = false;
+            button.addEventListener("click", function(){openInsertForm(button);});
         });
 
-        sectionsContentElem = document.querySelectorAll(".sectionContent");
+
+
         insertBtnFrmElem = document.querySelectorAll("#insertBtnFrm");
-        insertBtnFrmElem.forEach(button =>
+        insertBtnFrmElem.forEach(function(button)
+        {
+            button.removeEventListener("click", function()
+            {
+                insertCardForm(button);
+            });
+        });
+        insertBtnFrmElem.forEach(function(button)
         {
             button.addEventListener("click", function()
             {
@@ -109,26 +159,56 @@ function init()
             });
         });
 
+
+
         deleteBtnsElem = document.querySelectorAll(".deleteBtn");
+        deleteBtnsElem.forEach(button => 
+        {
+            button.removeEventListener("click", function()
+            {
+                deleteCard(this);
+            });
+        });
         deleteBtnsElem.forEach(button => 
         {
             button.addEventListener("click", function()
             {
                 deleteCard(this);
-                console.log(button.parentNode);
             });
         });
+
+
+
 
         editBtnsElem = document.querySelectorAll(".editBtn");
         editBtnsElem.forEach(button =>
         {
+            button.removeEventListener("click", function()
+            {
+                editMode = true;
+                editCard(button);
+            });
+        });
+        editBtnsElem.forEach(button =>
+        {
             button.addEventListener("click", function()
             {
+                editMode = true;
                 editCard(button);
             });
         });
 
+
+
+
         deleteSectionBtnsElem = document.querySelectorAll("#deleteSectionBtn");
+        deleteSectionBtnsElem.forEach(button =>
+        {
+            button.removeEventListener("click", function()
+            {
+                deleteCard(button);
+            });
+        });
         deleteSectionBtnsElem.forEach(button =>
         {
             button.addEventListener("click", function()
@@ -140,7 +220,7 @@ function init()
 
     function insertSection()
     {
-        sectionsContainerElem.innerHTML += `<div class="columnContainer">
+        sectionsContainerElem.innerHTML += `<div class="sectionContainer">
             <h1><input type="text" value="Section"></h1>
             <button class="sectionBtn" id="insertBtn">+</button>
             <button class="sectionBtn" id="deleteSectionBtn">Delete</button>
@@ -153,12 +233,6 @@ function init()
         checkForButtons();
     }
 
-    console.log(sectionInsertBtnsElem);
-
-    insertBtnsElem.forEach(button => 
-    {
-        button.addEventListener("click", openInsertForm);
-    });
     closeBtnFrmElem.addEventListener("click", closeInsertForm);
     checkForButtons();
     sectionInsertBtnsElem.addEventListener("click", insertSection);
