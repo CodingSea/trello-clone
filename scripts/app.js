@@ -1,15 +1,17 @@
 function init()
 {
-    const insertBtnElem = document.querySelector("#insertBtn");
-    const insertBtnFrmElem = document.querySelector("#insertBtnFrm");
+    let insertBtnsElem = document.querySelectorAll("#insertBtn");
+    let insertBtnFrmElem = document.querySelectorAll("#insertBtnFrm");
     const closeBtnFrmElem = document.querySelector("#closeBtnFrm");
     const inputTitleElem = document.querySelector("#inputTitle");
     const inputContentElem = document.querySelector("#inputContent");
     let deleteBtnsElem = document.querySelectorAll(".deleteBtn");
     let editBtnsElem = document.querySelectorAll(".editBtn");
-
     const insertFormElem = document.querySelector(".insertForm");
-    const sectionContentElem = document.querySelector(".sectionContent");
+    let sectionsContentElem = document.querySelectorAll(".sectionContent");
+    let deleteSectionBtnsElem = document.querySelectorAll("#deleteSectionBtn");
+    const sectionsContainerElem = document.querySelector("#sectionsContainer");
+    const sectionInsertBtnsElem = document.querySelector("#sectionInsertBtn");
 
     let editMode = false;
     let selectedCard;
@@ -29,7 +31,7 @@ function init()
         checkForButtons();
     }
 
-    function insertCardForm()
+    function insertCardForm(button)
     {
         if(editMode == false)
         {
@@ -37,8 +39,10 @@ function init()
 
             // this line is learned from the internet
             content = content.replace(/\n/g, '<br>');
+
+            sce = button.parentNode.querySelectorAll(".sectionContent");
             
-            sectionContentElem.innerHTML += `<div class="card">
+            sce.innerHTML += `<div class="card">
                                                 <h2 class="title">${inputTitleElem.value}</h2>
                                                 <hr>
                                                 <p class="content">${content}</p>
@@ -89,12 +93,29 @@ function init()
 
     function checkForButtons()
     {
+        insertBtnsElem = document.querySelectorAll("#insertBtn");
+        insertBtnsElem.forEach(button => 
+        {
+            button.addEventListener("click", openInsertForm);
+        });
+
+        sectionsContentElem = document.querySelectorAll(".sectionContent");
+        insertBtnFrmElem = document.querySelectorAll("#insertBtnFrm");
+        insertBtnFrmElem.forEach(button =>
+        {
+            button.addEventListener("click", function()
+            {
+                insertCardForm(button);
+            });
+        });
+
         deleteBtnsElem = document.querySelectorAll(".deleteBtn");
         deleteBtnsElem.forEach(button => 
         {
             button.addEventListener("click", function()
             {
                 deleteCard(this);
+                console.log(button.parentNode);
             });
         });
 
@@ -106,12 +127,42 @@ function init()
                 editCard(button);
             });
         });
+
+        deleteSectionBtnsElem = document.querySelectorAll("#deleteSectionBtn");
+        deleteSectionBtnsElem.forEach(button =>
+        {
+            button.addEventListener("click", function()
+            {
+                deleteCard(button);
+            });
+        });
     }
 
-    insertBtnElem.addEventListener("click", openInsertForm);
+    function insertSection()
+    {
+        sectionsContainerElem.innerHTML += `<div class="columnContainer">
+            <h1><input type="text" value="Section"></h1>
+            <button class="sectionBtn" id="insertBtn">+</button>
+            <button class="sectionBtn" id="deleteSectionBtn">Delete</button>
+            <hr>
+            <div class="sectionContent">
+
+            </div>
+        </div>`;
+
+        checkForButtons();
+    }
+
+    console.log(sectionInsertBtnsElem);
+
+    insertBtnsElem.forEach(button => 
+    {
+        button.addEventListener("click", openInsertForm);
+    });
     closeBtnFrmElem.addEventListener("click", closeInsertForm);
-    insertBtnFrmElem.addEventListener("click", insertCardForm);
     checkForButtons();
+    sectionInsertBtnsElem.addEventListener("click", insertSection);
+    
 }
 
 document.addEventListener('DOMContentLoaded', init);
