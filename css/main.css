@@ -5,29 +5,39 @@ body
 
 .mainContainer
 {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
 }
 
-.columnContainer
+.sectionContainer
 {
     width: 20em;
     border: 0.2em solid black;
     padding: 0.5em;
     border-radius: 2em;
+    gap: 2em;
+
+    
 }
 
-.columnContainer h1
+.sectionContainer h1
 {
     text-align: center;
     margin: 0 0 0.2em 0;
 }
 
-.columnContainer h1 input
+.sectionContainer h1 input
 {
     text-align: center;
     border: none;
     font-size: x-large;
+}
+
+#sectionsContainer
+{
+    display: flex;
+    gap: 2em;
 }
 
 .card
