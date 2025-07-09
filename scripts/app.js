@@ -1,7 +1,7 @@
 function init()
 {
     let insertBtnsElem = document.querySelectorAll("#insertBtn");
-    let insertBtnFrmElem = document.querySelectorAll("#insertBtnFrm");
+    let insertBtnFrmElem = document.querySelector("#insertBtnFrm");
     const closeBtnFrmElem = document.querySelector("#closeBtnFrm");
     const inputTitleElem = document.querySelector("#inputTitle");
     const inputContentElem = document.querySelector("#inputContent");
@@ -36,16 +36,13 @@ function init()
         {
             insertBtnFrmElem.textContent = "Save";
             insertFormElem.classList.add("open");
-            editMode = false;
             selectedSection = button.parentNode.parentNode.parentNode;
-            console.log(selectedSection);
             selectedCard = button.parentNode;
         }
         else
         {
             insertBtnFrmElem.textContent = "Insert";
             insertFormElem.classList.add("open");
-            editMode = false;
             selectedSection = button.parentNode;
         }
     }
@@ -55,7 +52,6 @@ function init()
         insertFormElem.classList.remove("open");
         inputTitleElem.value = "";
         inputContentElem.value = "";
-        //checkForButtons();
     }
 
     function insertCardForm(button)
@@ -78,11 +74,15 @@ function init()
                                                 <button class="deleteBtn">Delete</button>`;
 
             const cardDeleteBtn = newCard.querySelector(".deleteBtn");
-
             cardDeleteBtn.addEventListener("click",function(event)
             {
-                console.log("pressed");
                 deleteCard(cardDeleteBtn);
+            });
+
+            const cardEditBtn = newCard.querySelector(".editBtn");
+            cardEditBtn.addEventListener("click",function(event)
+            {
+                editCard(cardEditBtn);
             });
 
             contentElem.appendChild(newCard);
@@ -100,7 +100,6 @@ function init()
         }
 
         closeInsertForm();
-        //checkForButtons();
         inputTitleElem.value = "";
         inputContentElem.value = "";
     }
@@ -115,126 +114,51 @@ function init()
     {
         const card = button.parentNode;
         selectedCard = card;
+        editMode = true;
 
         let title = card.querySelector(".title");
         let content = card.querySelector(".content");
 
         inputTitleElem.value = title.textContent;
         inputContentElem.value = content.textContent;
-        editMode = true;
         openInsertForm(button);
-        //checkForButtons();
-        
-    }
-
-    function checkForButtons()
-    {
-        insertBtnsElem = document.querySelectorAll("#insertBtn");
-        insertBtnsElem.forEach(button => 
-        {
-            editMode = false;
-            button.removeEventListener("click", function(){openInsertForm(button);});
-        });
-        insertBtnsElem.forEach(button => 
-        {
-            editMode = false;
-            button.addEventListener("click", function(){openInsertForm(button);});
-        });
-
-
-
-        insertBtnFrmElem = document.querySelectorAll("#insertBtnFrm");
-        insertBtnFrmElem.forEach(function(button)
-        {
-            button.removeEventListener("click", function()
-            {
-                insertCardForm(button);
-            });
-        });
-        insertBtnFrmElem.forEach(function(button)
-        {
-            button.addEventListener("click", function()
-            {
-                insertCardForm(button);
-            });
-        });
-
-
-
-        deleteBtnsElem = document.querySelectorAll(".deleteBtn");
-        deleteBtnsElem.forEach(button => 
-        {
-            button.removeEventListener("click", function()
-            {
-                deleteCard(this);
-            });
-        });
-        deleteBtnsElem.forEach(button => 
-        {
-            button.addEventListener("click", function()
-            {
-                deleteCard(this);
-            });
-        });
-
-
-
-
-        editBtnsElem = document.querySelectorAll(".editBtn");
-        editBtnsElem.forEach(button =>
-        {
-            button.removeEventListener("click", function()
-            {
-                editMode = true;
-                editCard(button);
-            });
-        });
-        editBtnsElem.forEach(button =>
-        {
-            button.addEventListener("click", function()
-            {
-                editMode = true;
-                editCard(button);
-            });
-        });
-
-
-
-
-        deleteSectionBtnsElem = document.querySelectorAll("#deleteSectionBtn");
-        deleteSectionBtnsElem.forEach(button =>
-        {
-            button.removeEventListener("click", function()
-            {
-                deleteCard(button);
-            });
-        });
-        deleteSectionBtnsElem.forEach(button =>
-        {
-            button.addEventListener("click", function()
-            {
-                deleteCard(button);
-            });
-        });
     }
 
     function insertSection()
     {
-        sectionsContainerElem.innerHTML += `<div class="sectionContainer">
-            <h1><input type="text" value="Section"></h1>
+        const tempSection = document.createElement("div");
+        tempSection.classList.add("sectionContainer");
+
+        tempSection.innerHTML += `<h1><input type="text" value="Section"></h1>
             <button class="sectionBtn" id="insertBtn">+</button>
             <button class="sectionBtn" id="deleteSectionBtn">Delete</button>
             <hr>
             <div class="sectionContent">
 
-            </div>
-        </div>`;
+            </div>`;
 
-        //checkForButtons();
+        const sectionInsertBtn = tempSection.querySelector("#insertBtn");
+        const sectionDeleteBtn = tempSection.querySelector("#deleteSectionBtn");
+
+        sectionInsertBtn.addEventListener("click", function()
+        {
+            editMode = false;
+            openInsertForm(sectionInsertBtn);
+        });
+
+        sectionDeleteBtn.addEventListener("click", function()
+        {
+            deleteCard(sectionDeleteBtn);
+        });
+
+        sectionsContainerElem.appendChild(tempSection);
     }
 
     closeBtnFrmElem.addEventListener("click", closeInsertForm);
-    checkForButtons();
+    insertBtnFrmElem.addEventListener("click", function(event)
+    {
+        insertCardForm(event);
+    });
     sectionInsertBtnsElem.addEventListener("click", insertSection);
     
 }
